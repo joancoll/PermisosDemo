@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PERMISSION_GRANTED) {
                 Toast.makeText(this, "Camera Permission granted", Toast.LENGTH_SHORT).show();
             } else {
-                activityResultLauncher.launch(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_CONTACTS});
+                activityResultLauncher.launch(new String[]{Manifest.permission.CAMERA});
             }
         });
         btn_contacts.setOnClickListener(v -> {
