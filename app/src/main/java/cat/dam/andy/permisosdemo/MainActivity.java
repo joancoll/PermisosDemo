@@ -15,9 +15,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int PERMISSION_GRANTED = PackageManager.PERMISSION_GRANTED;
-
     // Members
+    final int PERMISSION_GRANTED = PackageManager.PERMISSION_GRANTED;
     private Button btn_camera;
     private Button btn_contacts;
     private ActivityResultLauncher<String[]> activityResultLauncher;
@@ -26,34 +25,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupViews();
-        setupListeners();
-        setupActivityResultLauncher();
+        initViews();
+        initPermissions();
+        initListeners();
     }
 
-    private void setupViews() {
+    private void initViews() {
         btn_camera = findViewById(R.id.btn_camera);
         btn_contacts = findViewById(R.id.btn_contacts);
     }
 
-    private void setupListeners() {
-        btn_camera.setOnClickListener(v -> {
-            if (checkSelfPermission(Manifest.permission.CAMERA) == PERMISSION_GRANTED) {
-                Toast.makeText(this, "Camera Permission granted", Toast.LENGTH_SHORT).show();
-            } else {
-                activityResultLauncher.launch(new String[]{Manifest.permission.CAMERA});
-            }
-        });
-        btn_contacts.setOnClickListener(v -> {
-            if (checkSelfPermission(Manifest.permission.WRITE_CONTACTS) == PERMISSION_GRANTED) {
-                Toast.makeText(this, "Contacts Permission granted", Toast.LENGTH_SHORT).show();
-            } else {
-                activityResultLauncher.launch(new String[]{Manifest.permission.WRITE_CONTACTS});
-            }
-        });
-    }
-
-    private void setupActivityResultLauncher() {
+    private void initPermissions() {
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 result -> {
@@ -80,5 +62,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void initListeners() {
+        btn_camera.setOnClickListener(v -> {
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PERMISSION_GRANTED) {
+                Toast.makeText(this, "Camera Permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                activityResultLauncher.launch(new String[]{Manifest.permission.CAMERA});
+            }
+        });
+        btn_contacts.setOnClickListener(v -> {
+            if (checkSelfPermission(Manifest.permission.WRITE_CONTACTS) == PERMISSION_GRANTED) {
+                Toast.makeText(this, "Contacts Permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                activityResultLauncher.launch(new String[]{Manifest.permission.WRITE_CONTACTS});
+            }
+        });
     }
 }
